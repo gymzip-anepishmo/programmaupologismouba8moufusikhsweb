@@ -27,30 +27,22 @@ function calculateFinalAverage(testAverage, paperAverage, examGrade, speechGrade
     //console.log(testAverage, "\n",paperAverage, "\n",examGrade, "\n",speechGrade, "\n",extraCreditAmount); 
     let sum = 0;
     let count = 0;
-    if(+testAverage!==-1){
+    if(+testAverage!==-1&&testAverage!=="Ένας από τους βαθμούς ήταν μη έγκυρος."){
         sum+=+testAverage;
         count++;
-    } else {
-        return "Ένας από τους βαθμούς ήταν μη έγκυρος.";
-    }
-    if(+paperAverage!==-1){
+    } 
+    if(+paperAverage!==-1&&paperAverage!=="Ένας από τους βαθμούς ήταν μη έγκυρος."){
         sum+=+paperAverage;
         count++;
-    } else {
-        return "Ένας από τους βαθμούς ήταν μη έγκυρος.";
-    }
+    } 
     if(+examGrade>=0&&+examGrade<=20){
         sum+=+examGrade;
         count++;
-    } else {
-        return "Ένας από τους βαθμούς ήταν μη έγκυρος.";
-    }
+    } 
     if(+speechGrade>=0&&+speechGrade<=20){
         sum+=+speechGrade;
         count++;
-    } else {
-        return "Ένας από τους βαθμούς ήταν μη έγκυρος.";
-    }
+    } 
     if(!(+extraCreditAmount>=0&&+extraCreditAmount<=2)){
         return "Ένας από τους βαθμούς ήταν μη έγκυρος.";
     }
