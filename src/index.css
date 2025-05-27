@@ -379,6 +379,20 @@ select::-ms-expand {
   color: #f39c12;
 }
 
+.modebtn{
+  height: 15vh;
+  font-size: 3vh;
+
+}
+
+.firstrender{
+  height: 33vh;
+  width: 33vh;
+  font-size: 5vh;
+  display: inline-block;
+vertical-align: middle;
+}
+
 @media (max-width: 1300px), (orientation: portrait){
   .misc, .paperList {
     display: grid;
@@ -388,4 +402,8 @@ select::-ms-expand {
   right: 50px;
   padding-left: 0;
   }
+}
+.finalGrade{
+  font-size: 5vh;
+  color:#aa0d1d;
 }
