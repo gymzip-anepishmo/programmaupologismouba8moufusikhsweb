@@ -1,4 +1,4 @@
-import "./App.css";
+ import "./App.css";
 import TestForm from "./TestForm"
 import PaperForm from "./PaperForm";
 import { useState, useEffect } from "react";
@@ -68,7 +68,16 @@ function App(props)
 </select>;
 const [isThisFirstRender, setNowFirstRender] = useState(true);
 const [finalGrade, setFinalGrade] = useState();
-const [isInFirstGrade, setInFirstGrade] = useState(false); 
+
+
+const [isInFirstGrade, setInFirstGradeRoot] = useState(false); 
+function setInFirstGrade(boolean ){//wrapper
+  if(boolean===true){
+    setTestValueList(["","",""]);
+    setExtraCreditAmount(0);
+  }
+  setInFirstGradeRoot(boolean);
+}
 let changeModeButton = <button className="modebtn" onClick={
   (e)=>{
     setInFirstGrade(!isInFirstGrade);
@@ -99,6 +108,16 @@ let initialNoButton = <button className="firstrender" onClick={
     {initialNoButton}
   </div>;
 }*/
+let [invalid_grade, setInvalidGrade] = useState("");
+function setFinalGradeAndFont(string){
+  if(string=="Ένας από τους βαθμούς ήταν μη έγκυρος."){
+    setFinalGrade("");
+    setInvalidGrade(string);
+  } else {
+    setInvalidGrade("");
+    setFinalGrade(string);
+  }
+}
   return (
     <div className="programma-upologismou">
       <ul
@@ -110,11 +129,11 @@ let initialNoButton = <button className="firstrender" onClick={
         {!isInFirstGrade &&<button
           type="button"
           className="calculateTestAverage"
-          onClick={()=>{setTestAverage(calculateAverageSafely(filterList(testValueList))); /*console.log((testValueList));*/ }}
+          onClick={()=>{setTestAverage(calculateAverageSafely(filterList(testValueList))===-1 ? "Ένας από τους βαθμούς ήταν μη έγκυρος." : calculateAverageSafely(filterList(testValueList))); /*console.log((testValueList));*/ }}
           >
           Υπολόγισε ΤΜΟ <span className="visually-hidden">{props.name}</span>
         </button>}
-        <p className="testAverage">{testAverage}</p>
+        {!isInFirstGrade && <p className="testAverage">{testAverage}</p>}
         <h1 className="infoHeader">Πληροφορίες για την εφαρμογή</h1>
         <p className="info">Αυτή η ιστοσελίδα δημιουργήθηκε για να διευκολύνει  <br/>τον υπολογισμό βαθμού φυσικής για τους μαθητές του Γυμνάσιου  <br/>το 2025 από τον μαθητή του σχολείου Άγγελο. Είναι εντελώς δωρεάν<br/> και ανοιχτής <a href="https://github.com/gymzip-anepishmo/programmaupologismouba8moufusikhsweb">πηγής.</a><br/>Πιθανές ερωτήσεις και απαντήσεις: <br/>  Ε: Πως δουλεύει;<br/>Α:<br/>1. Παίρνει τον μέσο όρο των τεστ. <br/>2. Παίρνει τον μέσο όρο των φυλλαδίων. <br/>3.Προσθέτει τον μέσο όρο των τεστ, τον μέσο όρο των φυλλαδίων, <br/> τον βαθμό διαγωνίσματος και τον βαθμό συμμετοχής και τα διαιρεί με το 4. <br/>4. Προσθέτει 0.5 για κάθε extra credit που έκανες.<br/><br/>Ε: Έβαλα δεκαδικό αριθμό και λέει πως ένας βαθμός δεν είναι έγκυρος! Τι να <br/>κάνω; <br/>Α: Οι δεκαδικοί αριθμοί πρέπει να είναι με τέλεια όχι κόμμα.<br/>(π.χ. 15.4 όχι 15,4). <br/>Αυτό μάλλον είναι το πρόβλημα.<br/></p>
       </ul>
@@ -126,7 +145,7 @@ let initialNoButton = <button className="firstrender" onClick={
         <button
           type="button"
           className="calculatePaperAverage"
-          onClick={()=>{setPaperAverage(calculateAverageSafely(filterList(paperValueList)));/*console.log(filterList(paperValueList));*/}}
+          onClick={()=>{setPaperAverage(calculateAverageSafely(filterList(paperValueList))===-1 ? "Ένας από τους βαθμούς ήταν μη έγκυρος." : calculateAverageSafely(filterList(paperValueList)));/*console.log(filterList(paperValueList));*/}}
           >
           Υπολόγισε ΕΜΟ <span className="visually-hidden">{props.name}</span>
         </button>
@@ -134,11 +153,12 @@ let initialNoButton = <button className="firstrender" onClick={
         <button
           type="button"
           className="calculateFinalGrade"
-          onClick={()=>{setFinalGrade(calculateFinalAverage(calculateAverageSafely(filterList(testValueList)),calculateAverageSafely(filterList(paperValueList)),examGrade, speechGrade, extraCreditAmount))}}
+          onClick={()=>{setFinalGradeAndFont(calculateFinalAverage(calculateAverageSafely(filterList(testValueList)),calculateAverageSafely(filterList(paperValueList)),examGrade, speechGrade, extraCreditAmount,isInFirstGrade))}}
           >
           Υπολόγισε βαθμό τετραμήνου <span className="visually-hidden">{props.name}</span>
         </button>
         <p className="finalGrade">{finalGrade}</p>
+        <p className="invalid_grade">{invalid_grade}</p>
       </ul>
       <ul
       role="list"
